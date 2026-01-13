@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thank You | Learn the Fix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red-primary: #BF0A30;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --bg-main: #ffffff;
+            --bg-soft: #f9fafb;
+            --border-soft: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-soft);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .thankyou-container {
+            max-width: 600px;
+            text-align: center;
+            background: var(--bg-main);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-soft);
+        }
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            background: rgba(191, 10, 48, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+        }
+        .checkmark svg {
+            width: 40px;
+            height: 40px;
+            stroke: var(--red-primary);
+            stroke-width: 2;
+        }
+        h1 {
+            color: var(--red-primary);
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+        }
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .contact-email {
+            background: rgba(191, 10, 48, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            border-left: 4px solid var(--red-primary);
+        }
+        .contact-email strong {
+            color: var(--red-primary);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+        .action-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .action-link {
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background: var(--red-primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #000000;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: var(--bg-soft);
+            color: var(--text-primary);
+            border: 1px solid var(--border-soft);
+        }
+        .btn-secondary:hover {
+            background: var(--border-soft);
+            transform: translateY(-2px);
+        }
+        @media (max-width: 480px) {
+            .thankyou-container {
+                padding: 30px 25px;
+            }
+            .action-links {
+                flex-direction: column;
+            }
+            .action-link {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thankyou-container">
+        <div class="checkmark">
+            <svg fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+        </div>
+        
+        <h1>Thank You!</h1>
+        <p>Your message has been sent successfully. We'll get back to you within 24-48 hours.</p>
+        
+        <div class="contact-email">
+            <strong>office@learnthefix.com</strong>
+            <p>You can also email us directly if you need immediate assistance.</p>
+        </div>
+        
+        <div class="action-links">
+            <a href="/" class="action-link btn-primary">Back to Homepage</a>
+            <a href="index.html" class="action-link btn-secondary">Send Another Message</a>
+        </div>
+    </div>
+</body>
+</html>
