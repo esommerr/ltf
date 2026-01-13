@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In | Learn the Fix</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* =======================
+       VARIABLES (UPDATED COLORS)
+    ======================= */
+    :root {
+      /* Brand */
+      --red-primary: #BF0A30;
+      --red-hover: #000000;
+      --red-subtle: rgba(191,10,48,0.08);
+      --red-light: rgba(191,10,48,0.1);
+
+      /* Text */
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+
+      /* Backgrounds */
+      --bg-main: #ffffff;
+      --bg-soft: #f9fafb;
+      --bg-subtle: #f3f4f6;
+
+      /* Borders */
+      --border-soft: #e5e7eb;
+      --divider-color: rgba(127,29,29,0.1);
+
+      /* Status messages */
+      --success-green: #059669;
+      --success-bg: #ecfdf5;
+      --error-red: #dc2626;
+      --error-bg: #fef2f2;
+    }
+
+    /* =======================
+       BASE
+    ======================= */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    p {
+      color: var(--text-secondary);
+    }
+
+    /* =======================
+       AUTH CARD
+    ======================= */
+    .auth-container {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .auth-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform .2s ease, box-shadow .2s ease;
+      box-shadow: 0 12px 32px rgba(0,0,0,.08);
+    }
+
+    .auth-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.12);
+    }
+
+    .card-header {
+      background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #f5f6f7 100%
+      );
+      padding: 40px 32px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-soft);
+      position: relative;
+    }
+
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--red-primary) 20%,
+        var(--red-primary) 80%,
+        transparent 100%
+      );
+      border-radius: 3px;
+    }
+
+    .card-title {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .card-subtitle {
+      font-size: 0.95rem;
+    }
+
+    .card-body {
+      padding: 40px 32px;
+    }
+
+    /* =======================
+       FORM ELEMENTS
+    ======================= */
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .form-label.required::after {
+      content: ' *';
+      color: var(--red-primary);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: var(--bg-soft);
+      transition: border-color .2s ease, background .2s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--red-primary);
+      background: var(--bg-main);
+      box-shadow: 0 0 0 3px var(--red-subtle);
+    }
+
+    .form-control::placeholder {
+      color: #9ca3af;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--bg-soft);
+      border: none;
+      padding: 6px 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 4px;
+      color: var(--text-secondary);
+    }
+
+    .password-toggle:hover {
+      background: var(--bg-subtle);
+      color: var(--red-primary);
+    }
+
+    /* =======================
+       FORM OPTIONS
+    ======================= */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 8px 0;
+      gap: 8px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--red-primary);
+    }
+
+    .forgot-password {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--red-primary);
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    /* =======================
+       BUTTONS
+    ======================= */
+    .btn {
+      background: var(--red-primary);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 9px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      border: none;
+      width: 100%;
+      transition: all .2s ease;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: var(--red-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(127,29,29,.28);
+    }
+
+    .btn-loading {
+      color: transparent;
+      position: relative;
+    }
+
+    .btn-loading::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      position: absolute;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* =======================
+       MESSAGES
+    ======================= */
+    #error-message,
+    #success-message {
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      margin-bottom: 24px;
+    }
+
+    #error-message {
+      background: var(--error-bg);
+      color: var(--error-red);
+      border: 1px solid #fecaca;
+    }
+
+    #success-message {
+      background: var(--success-bg);
+      color: var(--success-green);
+      border: 1px solid #a7f3d0;
+    }
+
+    #error-message:not(:empty),
+    #success-message:not(:empty) {
+      display: block;
+    }
+
+    /* =======================
+       REGISTER LINK
+    ======================= */
+    .register-link {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-soft);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    
+    .register-link p {
+  margin-bottom: 12px; /* Adjust this value as needed */
+}
+
+    .register-link a {
+      color: var(--red-primary);
+      font-weight: 600;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="card-header">
+        <h1 class="card-title">Welcome back</h1>
+        <p class="card-subtitle">Sign in with Username, Email, or User ID</p>
+      </div>
+
+      <div class="card-body">
+        <div id="error-message"></div>
+        <div id="success-message"></div>
+
+        <!-- FORM ACTION UPDATED HERE -->
+        <form id="signin-form" class="auth-form" action="../backend/auth/login.php" method="POST" novalidate>
+          <div class="form-group">
+            <label for="username" class="form-label required">Username or Email</label>
+            <input 
+  type="text" 
+  id="username" 
+  name="username" 
+  class="form-control" 
+  placeholder="Enter username, email, or User ID" 
+  required
+>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label required">Password</label>
+            <div style="position:relative;">
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                class="form-control" 
+                placeholder="Enter your password" 
+                required
+              >
+              <button type="button" class="password-toggle">Show</button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <div class="remember-me">
+              <input type="checkbox" id="remember-me" name="remember_me" value="1" />
+              <label for="remember-me">Remember me</label>
+            </div>
+            <a href="#" class="forgot-password">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn" id="submit-btn">Sign In</button>
+        </form>
+
+        <div class="register-link">
+          <p>Don't have an account?</p>
+          <a href="/user-registration/">Create one</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // Password toggle functionality
+  document.querySelectorAll('.password-toggle').forEach(toggleBtn => {
+    toggleBtn.addEventListener('click', function() {
+      const input = this.parentElement.querySelector('input');
+      if (input.type === 'password') {
+        input.type = 'text';
+        this.textContent = 'Hide';
+      } else {
+        input.type = 'password';
+        this.textContent = 'Show';
+      }
+    });
+  });
+
+  // Remember me functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedUsername = localStorage.getItem('remembered_username');
+    const rememberMe = document.getElementById('remember-me');
+
+    if (savedUsername) {
+      document.getElementById('username').value = savedUsername;
+      rememberMe.checked = true;
+    }
+  });
+
+  // Form validation and submission
+  document.getElementById('signin-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const errorMessage = document.getElementById('error-message');
+    const successMessage = document.getElementById('success-message');
+    const submitBtn = document.getElementById('submit-btn');
+    const rememberMe = document.getElementById('remember-me');
+    
+    errorMessage.textContent = '';
+    successMessage.textContent = '';
+    errorMessage.style.display = 'none';
+    successMessage.style.display = 'none';
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    // Basic client-side validation
+    if (!username || !password) {
+      errorMessage.textContent = 'Please fill in all required fields.';
+      errorMessage.style.display = 'block';
+      return false;
+    }
+
+    // Store username if "Remember me" is checked
+    if (rememberMe.checked) {
+      localStorage.setItem('remembered_username', username);
+    } else {
+      localStorage.removeItem('remembered_username');
+    }
+
+    // Show loading state
+    submitBtn.disabled = true;
+    submitBtn.classList.add('btn-loading');
+    submitBtn.innerHTML = '';
+
+    // Submit form (it will redirect to login.php)
+    this.submit();
+    
+    return true;
+  });
+</script>
+</body>
+</html>
