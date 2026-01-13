@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Learn the Fix</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =====================
+           VARIABLES
+        ===================== */
+        :root {
+            --red-primary: #BF0A30;
+            --red-hover: #000000;
+            --red-subtle: rgba(127, 29, 29, 0.08);
+
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+
+            --bg-main: #ffffff;
+            --bg-soft: #f8fafc;
+            --bg-subtle: #f1f5f9;
+
+            --border-soft: #e2e8f0;
+            --divider-color: rgba(127, 29, 29, 0.1);
+
+            /* Sky blue */
+            --sky-blue-light: #e0f2fe;
+            --sky-blue-medium: #7dd3fc;
+            --sky-blue-subtle: rgba(125, 211, 252, 0.15);
+        }
+
+        /* =====================
+           RESET & BASE
+        ===================== */
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background: var(--bg-main);
+            line-height: 1.55;
+            min-height: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        h1,h2,h3,h4 { margin:0; font-weight:700; }
+        p { margin:0; color: var(--text-secondary); }
+        a { color: inherit; text-decoration: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        section { padding: clamp(40px, 6vw, 56px) 0; position: relative; }
+        section:last-of-type { padding-bottom: 20px; }
+
+        /* =====================
+           HEADER
+        ===================== */
+        header {
+            background: var(--bg-main);
+            border-bottom: 1px solid var(--border-soft);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .logo { display: flex; align-items: center; font-weight:700; }
+        .logo-image { height:120px; width:auto; transition:opacity 0.2s ease; }
+        .logo-image:hover { opacity:0.85; }
+        .nav-links { display:flex; align-items:center; gap:24px; }
+        .nav-link {
+            font-size:0.9rem;
+            font-weight:500;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+            padding:8px 0;
+            position: relative;
+        }
+        .nav-link:hover { color: var(--text-primary); }
+        .nav-link.login::after, .nav-link.register::after {
+            content: '';
+            position:absolute;
+            bottom:0; left:0;
+            width:0; height:2px;
+            background: var(--red-primary);
+            transition: width 0.3s ease;
+        }
+        .nav-link.login:hover::after, .nav-link.register:hover::after { width:100%; }
+        .btn-nav {
+            background: var(--red-primary);
+            color: white;
+            padding:10px 22px;
+            border-radius:8px;
+            font-size:0.85rem;
+            font-weight:600;
+            letter-spacing:0.02em;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        .btn-nav:hover { background: var(--red-hover); transform: translateY(-1px); }
+        .mobile-menu-btn {
+            display:none;
+            background:none;
+            border:none;
+            font-size:1.5rem;
+            color: var(--text-primary);
+            cursor:pointer;
+            padding:8px;
+        }
+
+    /* =====================
+   SKY BLUE DIVIDERS
+===================== */
+.sky-blue-divider { position: relative; }
+
+.sky-blue-divider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* SIZE */
+    width: 220px;        /* longer for visibility */
+    height: 3px;         /* slightly thicker */
+
+    /* VISUAL STYLE */
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(125, 211, 252, 0.4) 18%,
+        var(--sky-blue-medium) 50%,
+        rgba(125, 211, 252, 0.4) 82%,
+        transparent 100%
+    );
+
+    border-radius: 3px;
+    opacity: 0.85;
+}
+
+/* Emphasis divider (hero / trust sections) */
+.sky-blue-divider-thick::before {
+    width: 300px;
+    height: 4px;
+    opacity: 0.95;
+}
+
+/* Subtle dotted divider (still visible now) */
+.sky-blue-divider-dots::before {
+    height: 2px;
+    width: 160px;
+    background-image: radial-gradient(var(--sky-blue-medium) 1.5px, transparent 1.5px);
+    background-size: 10px 100%;
+    background-repeat: repeat-x;
+    opacity: 0.75;
+}
+
+/* Wide divider */
+.sky-blue-divider-full::before {
+    width: 85%;
+    max-width: 520px;
+}
+
+        /* =====================
+           SECTION DIVIDERS
+        ===================== */
+        .section-divider::before {
+            content:'';
+            position:absolute;
+            top:0; left:50%;
+            transform:translateX(-50%);
+            width:120px; height:3px;
+            background: linear-gradient(90deg, transparent 0%, var(--divider-color) 20%, var(--divider-color) 80%, transparent 100%);
+            border-radius:3px;
+        }
+
+        /* =====================
+           HERO
+        ===================== */
+        .hero {
+            background: linear-gradient(135deg, #f8fafc, #ffffff);
+            border-bottom:1px solid var(--border-soft);
+            position:relative;
+        }
+        .hero::after {
+            content:'';
+            position:absolute;
+            bottom:0; left:0; right:0;
+            height:1px;
+            background: linear-gradient(90deg, transparent 0%, var(--sky-blue-subtle) 20%, var(--sky-blue-subtle) 80%, transparent 100%);
+        }
+        .hero-grid {
+            display:grid;
+            grid-template-columns:1.1fr 0.9fr;
+            gap:clamp(32px,6vw,56px);
+            align-items:center;
+        }
+        .hero h1 { font-size:clamp(2.1rem,5vw,2.9rem); line-height:1.1; }
+        .hero p { margin-top:14px; max-width:56ch; font-size:1.05rem; margin-bottom:50px; }
+        .hero-actions { margin-top:22px; display:flex; gap:14px; flex-wrap:wrap; padding:12px 0; }
+
+        /* =====================
+           BUTTONS
+        ===================== */
+        .btn {
+            background: var(--red-primary);
+            color:#fff;
+            padding:14px 28px;
+            border-radius:9px;
+            font-size:0.85rem;
+            font-weight:600;
+            letter-spacing:0.04em;
+            text-transform:uppercase;
+            min-width:210px;
+            text-align:center;
+            transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+        }
+        .btn:hover { background: var(--red-hover); transform:translateY(-1px); box-shadow:0 8px 18px rgba(127,29,29,.28); }
+
+        /* =====================
+           TRUST STRIP
+        ===================== */
+        .trust-strip { background: linear-gradient(180deg, var(--bg-subtle), #ffffff); border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft); position:relative; }
+        .trust-strip::before, .trust-strip::after {
+            content:'';
+            position:absolute;
+            left:0; right:0; height:1px;
+            background: linear-gradient(90deg, transparent 0%, var(--sky-blue-light) 20%, var(--sky-blue-light) 80%, transparent 100%);
+        }
+        .trust-strip::after { bottom:0; top:auto; }
+
+        .trust-header { text-align:center; max-width:720px; margin:0 auto 28px; }
+        .trust-header h2 { font-size:clamp(1.6rem,4vw,2rem); }
+        .trust-header p { margin-top:8px; }
+
+        .trust-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+        .trust-item {
+            background:#fff;
+            border:1px solid var(--border-soft);
+            border-radius:14px;
+            padding:24px 20px;
+            text-align:center;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .trust-item:hover { transform:translateY(-2px); box-shadow:0 12px 24px rgba(0,0,0,.08); }
+        .trust-icon {
+            width:42px; height:42px; border-radius:50%;
+            background: rgba(127,29,29,.12);
+            display:flex; align-items:center; justify-content:center;
+            margin:0 auto 10px;
+        }
+        .trust-icon svg { width:20px; height:20px; stroke: var(--red-primary); }
+        .trust-item h4 { font-size:0.95rem; margin-bottom:6px; }
+
+        /* =====================
+           HOW IT WORKS
+        ===================== */
+        .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:26px; margin-top:20px; }
+        .step {
+            background:#fff;
+            border:1px solid var(--border-soft);
+            border-radius:16px;
+            padding:26px;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .step:hover { transform:translateY(-2px); box-shadow:0 12px 24px rgba(0,0,0,.08); }
+        .step h3 { margin-bottom:8px; }
+
+        /* =====================
+           CATEGORIES
+        ===================== */
+        .categories { background:var(--bg-soft); padding-bottom:60px; position:relative; }
+        .categories::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:180px; height:2px; background: linear-gradient(90deg, transparent 0%, var(--sky-blue-medium) 20%, var(--sky-blue-medium) 80%, transparent 100%); opacity:0.7; }
+        .categories::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:140px; height:1px; background: linear-gradient(90deg, transparent 0%, var(--sky-blue-subtle) 30%, var(--sky-blue-subtle) 70%, transparent 100%); }
+        .category-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:26px; margin-top:20px; }
+        .category-card {
+            background:#fff;
+            border:1px solid var(--border-soft);
+            border-radius:16px;
+            padding:26px;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .category-card:hover { transform:translateY(-2px); box-shadow:0 12px 24px rgba(0,0,0,.08); }
+
+        /* =====================
+           FOOTER
+        ===================== */
+        footer {
+            background: var(--bg-main);
+            border-top:1px solid var(--border-soft);
+            padding:24px 0;
+            margin-top:auto;
+            position:relative;
+            box-shadow:0 -1px 3px rgba(0,0,0,0.04);
+        }
+        .footer-container {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            max-width:1200px;
+            margin:0 auto;
+            padding:0 20px;
+        }
+        .footer-links { display:flex; align-items:center; gap:24px; }
+        .footer-link {
+            font-size:0.9rem; font-weight:500;
+            color:var(--text-secondary);
+            transition: color 0.2s ease;
+            padding:8px 0; position:relative;
+        }
+        .footer-link:hover { color:var(--text-primary); }
+        .footer-link::after {
+            content:'';
+            position:absolute;
+            bottom:0; left:0;
+            width:0; height:2px;
+            background: var(--red-primary);
+            transition: width 0.3s ease;
+        }
+        .footer-link:hover::after { width:100%; }
+        .copyright {
+            font-size:0.85rem;
+            color:var(--text-secondary);
+            text-align:center;
+        }
+        footer::before {
+            content:'';
+            position:absolute;
+            top:-1px; left:50%;
+            transform:translateX(-50%);
+            width:200px; height:1px;
+            background: linear-gradient(90deg, transparent 0%, var(--sky-blue-medium) 15%, var(--sky-blue-medium) 85%, transparent 100%);
+            opacity:0.6;
+        }
+
+        /* =====================
+           RESPONSIVE
+        ===================== */
+        @media (max-width: 900px) {
+            .hero-grid, .trust-grid, .steps, .category-grid { grid-template-columns:1fr; }
+            .hero { text-align:center; }
+            .hero p { margin-left:auto; margin-right:auto; }
+            .hero-actions { justify-content:center; }
+            .btn { width:100%; max-width:340px; }
+
+            /* Section dividers */
+            .section-divider::before, .section-divider-thick::before, .section-divider-dots::before, .categories::before, footer::before { width:100px; }
+            .sky-blue-divider::before, .sky-blue-divider-thick::before, .sky-blue-divider-dots::before, .sky-blue-divider-full::before { width:120px; }
+
+            /* Mobile header */
+            .mobile-menu-btn { display:block; }
+            .nav-links {
+                display:none;
+                position:absolute;
+                top:100%; left:0; right:0;
+                background: var(--bg-main);
+                flex-direction:column;
+                padding:20px;
+                box-shadow:0 5px 15px rgba(0,0,0,0.08);
+                border-bottom:1px solid var(--border-soft);
+                gap:15px;
+            }
+            .nav-links.active { display:flex; }
+            .nav-link { width:100%; text-align:center; padding:12px 0; border-bottom:1px solid var(--border-soft); }
+            .nav-link:last-child { border-bottom:none; }
+            .btn-nav { width:100%; }
+
+            /* Mobile footer */
+            .footer-container { flex-direction:column; gap:20px; text-align:center; }
+            .footer-links { flex-direction:column; gap:15px; }
+            .footer-link { padding:12px 0; }
+        }
+
+        @media (max-width: 420px) {
+            .container { padding:0 16px; }
+            .btn { font-size:0.8rem; padding:13px 22px; }
+            .header-container, .footer-container { padding:0 16px; }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+           <a href="/" class="logo">
+    <img
+        src="https://assets.zyrosite.com/m5KbQR9jMzu28lGZ/ltf-fliarzvEWo8OqyiI.jpg"
+        alt="Learn the Fix"
+        class="logo-image"
+    >
+</a>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <nav class="nav-links" id="navLinks">
+    <a href="/sign-in/" class="nav-link login" target="_blank" rel="noopener noreferrer">Sign In</a>
+    <a href="/user-registration/" class="btn-nav register" target="_blank" rel="noopener noreferrer">Sign Up</a>
+</nav>
+
+
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero sky-blue-divider">
+        <div class="container hero-grid">
+            <div>
+                <h1>Hire a Pro.<br>Learn How It's Done.</h1>
+                <p>Learn the Fix connects you with trusted professionals who<br> complete tasks while teaching you skills along the way.</p>
+                <div class="hero-actions">
+                    <a class="btn" href="/search/" target="_blank" rel="noopener noreferrer">I Need A Professional</a>
+                    <a class="btn" href="/professional-registration/" target="_blank" rel="noopener noreferrer">I Am A Professional</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST -->
+    <section class="trust-strip sky-blue-divider-thick">
+        <div class="container">
+            <div class="trust-header">
+                <h2>Hire. Learn. Grow.</h2>
+                <p>Every professional is vetted, reviewed, and verified.</p>
+            </div>
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M12 3l7 4v5c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V7l7-4z"/>
+                        </svg>
+                    </div>
+                    <h4>Verified Professionals</h4>
+                    <p>Vetted experts with years of experience.</p>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/>
+                        </svg>
+                    </div>
+                    <h4>Learn While You Hire</h4>
+                    <p>Hands-on instruction while doing real work, both virtually or in-person.</p>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10l9-7 9 7v8a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V12H9v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        </svg>
+                    </div>
+                    <h4>Endless Projects</h4>
+                    <p>From repairs to installs to builds.</p>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-3.5 0-6 2.5-6 5s2.5 5 6 5 6-2.5 6-5-2.5-5-6-5z"/>
+                        </svg>
+                    </div>
+                    <h4>Skill-Building Platform</h4>
+                    <p>Learn new skills. Teach new skills.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="sky-blue-divider-dots">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <h3>Choose a Professional</h3>
+                    <p>Find an expert.</p>
+                </div>
+                <div class="step">
+                    <h3>Book the Job</h3>
+                    <p>Schedule the work for a time that is convenient.</p>
+                </div>
+                <div class="step">
+                    <h3>Learn the Skill</h3>
+                    <p>Watch, help, ask questions, and gather real hands-on experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="categories sky-blue-divider-full">
+        <div class="container">
+            <h2>Popular Categories</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <h3>Home & Repair</h3>
+                    <p>Plumbing, drywall, painting, lawn mowers, oil changes.</p>
+                </div>
+                <div class="category-card">
+                    <h3>Technology</h3>
+                    <p>Websites, apps, iPhones, Wi-Fi networks, TikTok.</p>
+                </div>
+                <div class="category-card">
+                    <h3>Hobbies</h3>
+                    <p>Gardening, sewing, playing the guitar, snowboarding, baking, dog training.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="copyright">
+                © 2026 Learn the Fix. All rights reserved.
+            </div>
+            <nav class="footer-links">
+                <a href="/legal/" class="footer-link">Legal</a>
+                <a href="/contact/" class="footer-link">Contact</a>
+
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('navLinks');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            if (window.innerWidth <= 900 && !navLinks.contains(event.target) && !mobileMenuBtn.contains(event.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
