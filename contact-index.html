@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us | Learn the Fix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red-primary: #BF0A30;
+            --red-hover: #000000;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --bg-main: #ffffff;
+            --bg-soft: #f9fafb;
+            --border-soft: #e5e7eb;
+            --sky-blue-light: #e0f2fe;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-soft);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .contact-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: var(--bg-main);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-soft);
+        }
+        .contact-header {
+            background: linear-gradient(135deg, #f8fafc, #ffffff);
+            padding: 50px 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-soft);
+            position: relative;
+        }
+        .contact-header::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent 0%, var(--red-primary) 20%, var(--red-primary) 80%, transparent 100%);
+            border-radius: 3px;
+        }
+        .contact-header h1 {
+            color: var(--red-primary);
+            margin-bottom: 12px;
+            font-size: 2.5rem;
+        }
+        .contact-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 500px;
+        }
+        .contact-info {
+            padding: 50px 40px;
+            background: var(--bg-soft);
+            border-right: 1px solid var(--border-soft);
+        }
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .contact-method {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .method-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(191, 10, 48, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .method-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--red-primary);
+        }
+        .method-content h3 {
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+        }
+        .method-content p {
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        .contact-link {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 10px 20px;
+            background: var(--red-primary);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .contact-link:hover {
+            background: var(--red-hover);
+            transform: translateY(-2px);
+        }
+        .contact-support {
+            background: rgba(191, 10, 48, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 40px;
+            border-left: 4px solid var(--red-primary);
+        }
+        .contact-support h3 {
+            color: var(--red-primary);
+            margin-bottom: 15px;
+        }
+        .contact-form-section {
+            padding: 50px 40px;
+            background: var(--bg-main);
+        }
+        .contact-form-section h2 {
+            margin-bottom: 30px;
+            color: var(--text-primary);
+            font-size: 1.8rem;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-soft);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-soft);
+            transition: all 0.2s ease;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--red-primary);
+            background: var(--bg-main);
+            box-shadow: 0 0 0 3px rgba(191, 10, 48, 0.1);
+        }
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--red-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .submit-btn:hover {
+            background: var(--red-hover);
+            transform: translateY(-2px);
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 40px;
+            padding: 12px 24px;
+            background: var(--bg-soft);
+            color: var(--text-primary);
+            border: 1px solid var(--border-soft);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .back-link:hover {
+            background: var(--red-primary);
+            color: white;
+            border-color: var(--red-primary);
+        }
+        @media (max-width: 900px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+            .contact-info {
+                border-right: none;
+                border-bottom: 1px solid var(--border-soft);
+            }
+            .contact-container {
+                margin: 20px auto;
+            }
+            .contact-header, .contact-info, .contact-form-section {
+                padding: 30px 25px;
+            }
+        }
+        @media (max-width: 480px) {
+            .contact-header h1 {
+                font-size: 2rem;
+            }
+            .contact-method {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            .method-icon {
+                margin: 0 auto;
+            }
+            body { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-container">
+        <div class="contact-header">
+            <h1>Contact Us</h1>
+            <p>Get in touch with our team. We're here to help you with any questions or concerns.</p>
+        </div>
+
+        <div class="contact-content">
+            <!-- Left Column: Contact Information -->
+            <div class="contact-info">
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div class="method-content">
+                            <h3>Email Support</h3>
+                            <p>For general inquiries and support:</p>
+                            <p><strong>office@learnthefix.com</strong></p>
+                            <a href="mailto:office@learnthefix.com" class="contact-link">Send Email</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <div class="method-content">
+                            <h3>Legal Inquiries</h3>
+                            <p>For legal matters and policy questions:</p>
+                            <p><strong>legal@learnthefix.com</strong></p>
+                            <a href="mailto:legal@learnthefix.com" class="contact-link">Contact Legal</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="method-content">
+                            <h3>Response Time</h3>
+                            <p>We strive to respond to all inquiries within:</p>
+                            <p><strong>24-48 hours</strong> for general questions</p>
+                            <p><strong>3-5 business days</strong> for legal matters</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-support">
+                    <h3>Need Immediate Help?</h3>
+                    <p>For urgent matters related to active service bookings or safety concerns, please include "URGENT" in your email subject line for prioritized response.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Contact Form -->
+            <div class="contact-form-section">
+                <h2>Send Us a Message</h2>
+                <form id="contact-form" action="https://formsubmit.co/office@learnthefix.com" method="POST">
+                    <!-- FormSubmit.co configuration -->
+                    <input type="hidden" name="_subject" value="New Contact Form Submission - Learn the Fix">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://learnthefix.com/contact/thank-you.html">
+                    
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Inquiry Type *</label>
+                        <select id="category" name="category" required>
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="professional">Professional Registration</option>
+                            <option value="user">User Account</option>
+                            <option value="legal">Legal Matter</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Your Message *</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+
+                <a href="/" class="back-link">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Back to Homepage
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple form validation
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const category = document.getElementById('category').value;
+            const message = document.getElementById('message').value.trim();
+            
+            if (!name || !email || !category || !message) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
+                return false;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('.submit-btn');
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            return true;
+        });
+    </script>
+</body>
+</html>
