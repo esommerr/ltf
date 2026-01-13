@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Create Account | Learn the Fix</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =======================
+   VARIABLES (UPDATED)
+======================= */
+:root {
+    --red-primary: #BF0A30;
+    --red-hover: #000000;
+    --red-subtle: rgba(191,10,48,0.08);
+
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+
+    --bg-main: #ffffff;
+    --bg-soft: #f9fafb;
+    --bg-subtle: #f3f4f6;
+
+    --border-soft: #e5e7eb;
+    --divider-color: rgba(127,29,29,0.1);
+}
+
+/* =======================
+   BASE
+======================= */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+button {
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+}
+
+/* =======================
+   AUTH CONTAINER (WIDER)
+======================= */
+.auth-container {
+    width: 100%;
+    max-width: 640px;
+}
+
+.auth-card {
+    background: var(--bg-main);
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0,0,0,.08);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.auth-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(0,0,0,.12);
+}
+
+/* =======================
+   CARD HEADER
+======================= */
+.card-header {
+    background: linear-gradient(135deg, #ffffff 0%, #f5f6f7 100%);
+    padding: 40px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-soft);
+    position: relative;
+}
+
+.card-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--red-primary) 20%,
+        var(--red-primary) 80%,
+        transparent 100%
+    );
+    border-radius: 3px;
+}
+
+.card-title {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.card-subtitle {
+    font-size: 0.95rem;
+}
+
+/* =======================
+   CARD BODY
+======================= */
+.card-body {
+    padding: 40px 32px;
+}
+
+/* =======================
+   FORM
+======================= */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group.full-width {
+    grid-column: span 2;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.form-label.required::after {
+    content: ' *';
+    color: var(--red-primary);
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px 84px 14px 16px; /* pad right for toggles */
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: var(--bg-soft);
+    transition: all .2s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--red-primary);
+    background: var(--bg-main);
+    box-shadow: 0 0 0 3px var(--red-subtle);
+}
+
+.form-control::placeholder {
+    color: #9ca3af;
+}
+
+/* =======================
+   PASSWORD TOGGLE
+======================= */
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--bg-soft);
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 4px;
+    color: var(--text-secondary);
+}
+
+.password-toggle:hover {
+    background: var(--bg-subtle);
+    color: var(--red-primary);
+}
+
+/* =======================
+   PASSWORD STRENGTH
+======================= */
+.password-strength {
+    font-size: 0.8rem;
+    margin-top: 6px;
+    display: none;
+}
+
+.password-strength.visible { display: block; }
+.strength-weak { color: #dc2626; }
+.strength-medium { color: #d97706; }
+.strength-strong { color: #059669; }
+
+/* =======================
+   BUTTON
+======================= */
+.btn {
+    background: var(--red-primary);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 9px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: none;
+    width: 100%;
+    margin-top: 8px;
+    transition: all .2s ease;
+}
+
+.btn:hover {
+    background: var(--red-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(127,29,29,.28);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-loading {
+    color: transparent;
+    position: relative;
+}
+
+.btn-loading::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* =======================
+   MESSAGES
+======================= */
+#error-message,
+#success-message {
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+    display: none;
+}
+
+#error-message {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+#success-message {
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+}
+
+#error-message:not(:empty),
+#success-message:not(:empty) {
+    display: block;
+}
+
+/* =======================
+   LOGIN LINK
+======================= */
+.login-link {
+    text-align: center;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-soft);
+    font-size: 0.9rem;
+}
+
+.login-link a {
+    color: var(--red-primary);
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* =======================
+   RESPONSIVE
+======================= */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    .form-group.full-width {
+        grid-column: span 1;
+    }
+}
+</style>
+</head>
+
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <!-- CARD HEADER -->
+      <div class="card-header">
+        <h1 class="card-title">Join the Community</h1>
+        <p class="card-subtitle">Create your account to get started.</p>
+      </div>
+
+      <!-- CARD BODY -->
+      <div class="card-body">
+        <!-- MESSAGES -->
+        <div id="error-message"></div>
+        <div id="success-message"></div>
+        <div id="user-id-display" style="display: none; background: #f0f9ff; border: 1px solid #7dd3fc; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
+          <h4 style="margin: 0 0 8px 0; color: #0c4a6e;">Your User ID has been generated!</h4>
+          <p style="margin: 0; color: #0369a1;">
+            <strong>User ID:</strong> <span id="generated-user-id"></span>
+          </p>
+          <p style="margin: 8px 0 0 0; font-size: 0.9rem; color: #475569;">
+            Save this ID for future reference. You'll use it to sign in along with your username.
+          </p>
+        </div>
+
+        <!-- FORM -->
+        <form id="registration-form" class="auth-form" action="../backend/auth/register.php" method="POST" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first_name" class="form-label required">First Name</label>
+              <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Enter your first name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="last_name" class="form-label required">Last Name</label>
+              <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Enter your last name" required>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="email" class="form-label required">Email Address</label>
+              <input type="email" id="email" name="email" class="form-control" placeholder="your.email@example.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="phone" class="form-label required">Phone Number</label>
+              <input type="tel" id="phone" name="phone" class="form-control" placeholder="(123) 456-7890" required>
+            </div>
+
+            <div class="form-group">
+              <label for="zipcode" class="form-label required">Zip Code</label>
+              <input type="text" id="zipcode" name="zipcode" class="form-control" placeholder="12345" required>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="username" class="form-label required">Username</label>
+              <input type="text" id="username" name="username" class="form-control" placeholder="Choose a username" required>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="form-label required">Password</label>
+              <div class="input-with-icon">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Create a password" required>
+                <button type="button" class="password-toggle">Show</button>
+              </div>
+              <div id="password-strength" class="password-strength"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirm-password" class="form-label required">Confirm Password</label>
+              <div class="input-with-icon">
+                <input type="password" id="confirm-password" name="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                <button type="button" class="password-toggle">Show</button>
+              </div>
+            </div>
+          </div>
+
+          <input type="hidden" id="user_id" name="user_id" value="">
+          
+          <button type="submit" class="btn" id="submit-btn">Complete Registration</button>
+        </form>
+
+        <!-- LOGIN LINK -->
+        <div class="login-link">
+          <p style="margin-bottom: 12px;">Already have an account?</p>
+          <a href="/sign-in/">Sign in here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// Generate a unique User ID
+function generateUserID() {
+    // Generate random 6-digit number
+    const randomNum = Math.floor(100000 + Math.random() * 900000);
+    return `USR-${randomNum}`;
+}
+
+// DOM Elements
+const form = document.getElementById('registration-form');
+const errorMessage = document.getElementById('error-message');
+const successMessage = document.getElementById('success-message');
+const userIdDisplay = document.getElementById('user-id-display');
+const generatedUserIdSpan = document.getElementById('generated-user-id');
+const userIdField = document.getElementById('user_id');
+const passwordInput = document.getElementById('password');
+const confirmPasswordInput = document.getElementById('confirm-password');
+const passwordStrength = document.getElementById('password-strength');
+const submitBtn = document.getElementById('submit-btn');
+
+// Generate User ID on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const userId = generateUserID();
+    generatedUserIdSpan.textContent = userId;
+    userIdField.value = userId;
+});
+
+// Password toggle functionality
+document.querySelectorAll('.password-toggle').forEach(toggleBtn => {
+    toggleBtn.addEventListener('click', function() {
+        const input = this.parentElement.querySelector('input');
+        if (input.type === 'password') {
+            input.type = 'text';
+            this.textContent = 'Hide';
+        } else {
+            input.type = 'password';
+            this.textContent = 'Show';
+        }
+    });
+});
+
+// Password strength indicator
+function checkPasswordStrength(password) {
+    let strength = 0;
+    let text = '';
+    let className = '';
+    
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[@$!%*?&]/.test(password)) strength++;
+    
+    if (strength < 2) {
+        text = 'Weak password';
+        className = 'strength-weak';
+    } else if (strength < 4) {
+        text = 'Medium password';
+        className = 'strength-medium';
+    } else {
+        text = 'Strong password ✓';
+        className = 'strength-strong';
+    }
+    
+    return { text, className };
+}
+
+passwordInput.addEventListener('input', function() {
+    const { text, className } = checkPasswordStrength(this.value);
+    if (this.value.length > 0) {
+        passwordStrength.textContent = text;
+        passwordStrength.className = `password-strength visible ${className}`;
+    } else {
+        passwordStrength.textContent = '';
+        passwordStrength.className = 'password-strength';
+    }
+});
+
+// Phone number formatting
+document.getElementById('phone').addEventListener('input', function(e) {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length > 3 && v.length <= 6) {
+        v = `(${v.slice(0,3)}) ${v.slice(3)}`;
+    } else if (v.length > 6) {
+        v = `(${v.slice(0,3)}) ${v.slice(3,6)}-${v.slice(6,10)}`;
+    }
+    e.target.value = v;
+});
+
+// Form submission handler
+form.addEventListener('submit', function(e) {
+    // Clear previous messages
+    errorMessage.textContent = '';
+    successMessage.textContent = '';
+    
+    // Check if passwords match
+    if (passwordInput.value !== confirmPasswordInput.value) {
+        e.preventDefault();
+        errorMessage.textContent = 'Passwords do not match.';
+        passwordInput.focus();
+        return false;
+    }
+    
+    // Check password strength (optional but recommended)
+    const { text, className } = checkPasswordStrength(passwordInput.value);
+    if (className === 'strength-weak') {
+        const proceed = confirm('Your password is weak. Are you sure you want to continue?');
+        if (!proceed) {
+            e.preventDefault();
+            passwordInput.focus();
+            return false;
+        }
+    }
+    
+    // Show user ID before submission
+    userIdDisplay.style.display = 'block';
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    submitBtn.classList.add('btn-loading');
+    submitBtn.textContent = '';
+    
+    // Form will submit normally to ../backend/auth/register.php
+    return true;
+});
+
+// If there are URL parameters (for errors/success from PHP)
+window.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    const success = urlParams.get('success');
+    
+    if (error) {
+        errorMessage.textContent = decodeURIComponent(error);
+    }
+    
+    if (success) {
+        successMessage.textContent = decodeURIComponent(success);
+        // Show user ID on successful registration from backend
+        const userId = urlParams.get('user_id');
+        if (userId) {
+            userIdDisplay.style.display = 'block';
+            generatedUserIdSpan.textContent = userId;
+        }
+    }
+});
+</script>
+
+</body>
+</html>
