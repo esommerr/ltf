@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Search Results | Learn the Fix</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* =======================
+   DESIGN TOKENS - UPDATED TO MATCH LEARNTHEFIX.COM
+======================= */
+:root {
+    /* Primary Brand Colors from learnthefix.com */
+    --red-primary: #DC2626;        /* Strong, confident red from buttons/accents */
+    --red-hover: #B91C1C;          /* Darker red for hover states */
+    --red-subtle: rgba(220, 38, 38, 0.08); /* Very subtle red for backgrounds */
+
+    /* Neutral Colors - Clean, professional contrast */
+    --text-primary: #1F2937;       /* Dark gray for main text (headers, important info) */
+    --text-secondary: #6B7280;     /* Medium gray for subtitles, body text */
+
+    /* Background Colors - Clean white foundation */
+    --bg-main: #FFFFFF;            /* Pure white main background */
+    --bg-soft: #F9FAFB;            /* Very light gray for subtle sections */
+    --bg-subtle: #F3F4F6;          /* Slightly darker gray for cards, accents */
+
+    /* UI Element Colors */
+    --border-soft: #E5E7EB;        /* Light gray for borders, dividers */
+    --divider-color: rgba(209, 213, 219, 0.5); /* Subtle divider matching site aesthetic */
+}
+
+/* =======================
+   RESET & BASE
+======================= */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+    background: var(--bg-main);
+    line-height: 1.55;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+    margin: 0;
+    font-weight: 700;
+}
+
+p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+}
+
+/* =======================
+   LAYOUT
+======================= */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-divider {
+    position: relative;
+}
+
+.section-divider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--divider-color) 20%,
+        var(--divider-color) 80%,
+        transparent 100%
+    );
+    border-radius: 3px;
+}
+
+/* =======================
+   SEARCH HEADER
+======================= */
+.search-header {
+    background: linear-gradient(135deg, #f8fafc, #ffffff);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 64px 0 40px;
+}
+
+.search-header-content {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: clamp(2.1rem, 5vw, 2.9rem);
+    line-height: 1.1;
+    margin-bottom: 12px;
+}
+
+.page-subtitle {
+    font-size: 1.05rem;
+    margin-bottom: 24px;
+}
+
+.search-query {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-soft);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.result-count {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--red-primary);
+    padding: 6px 12px;
+    background: var(--red-subtle);
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* =======================
+   SEARCH CONTROLS
+======================= */
+.search-controls {
+    background: var(--bg-soft);
+    border-radius: 12px;
+    border: 1px solid var(--border-soft);
+    padding: 24px;
+    margin: 32px auto;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.custom-select {
+    position: relative;
+}
+
+.custom-select select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    background: var(--bg-main);
+    font-size: 0.9rem;
+    appearance: none;
+}
+
+.custom-select::after {
+    content: '▼';
+    font-size: 0.75rem;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-soft);
+}
+
+.filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-soft);
+    font-size: 0.85rem;
+}
+
+/* =======================
+   DISTANCE GROUPING HEADERS
+======================= */
+.distance-group {
+    margin: 48px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--red-subtle);
+}
+
+.distance-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.distance-badge {
+    background: var(--red-primary);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.distance-title {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.distance-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+/* =======================
+   RESULTS
+======================= */
+.results-section {
+    padding-bottom: 56px;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+}
+
+/* =======================
+   PROFESSIONAL CARD
+======================= */
+.professional-card {
+    background: var(--bg-main);
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.professional-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0,0,0,.08);
+}
+
+.card-header {
+    padding: 24px;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.professional-info {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.professional-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--red-subtle);
+    color: var(--red-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.professional-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.professional-title {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.card-body {
+    padding: 24px;
+}
+
+.distance-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.distance-indicator .fas {
+    color: var(--red-primary);
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.skill-tag {
+    background: var(--bg-subtle);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.stars {
+    color: #fbbf24;
+}
+
+.rating-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.review-count {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* =======================
+   BUTTONS
+======================= */
+.btn {
+    background: var(--red-primary);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    transition: all .2s ease;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+}
+
+.btn:hover {
+    background: var(--red-hover);
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--red-primary);
+    color: var(--red-primary);
+}
+
+/* =======================
+   STATES
+======================= */
+.loading {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--border-soft);
+    border-top-color: var(--red-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 40px;
+}
+
+.page-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--border-soft);
+    background: var(--bg-main);
+}
+
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.no-results-icon {
+    font-size: 3rem;
+    color: var(--border-soft);
+    margin-bottom: 16px;
+}
+
+/* =======================
+   NOTIFICATION
+======================= */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--red-primary);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    display: none;
+    z-index: 1000;
+}
+
+/* =======================
+   MOBILE
+======================= */
+@media (max-width: 768px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .distance-group {
+        margin: 32px 0 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main>
+    <section class="search-header section-divider">
+        <div class="container search-header-content">
+            <h1 class="page-title" id="searchTitle">Search Results</h1>
+            <p class="page-subtitle" id="searchSubtitle">
+                Find the right professional for your needs
+            </p>
+
+            <div class="search-query" id="searchQueryDisplay">
+                <i class="fas fa-search"></i>
+                <span id="queryText">Enter search criteria to find professionals</span>
+            </div>
+
+            <div class="result-count" id="resultCount">
+                0 professionals found
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="search-controls">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label class="control-label">Sort by</label>
+                    <div class="custom-select">
+                        <select id="sort-by">
+                            <option value="distance">Distance (Nearest First)</option>
+                            <option value="rating">Highest Rating</option>
+                            <option value="experience">Most Experienced</option>
+                            <option value="price_low">Price: Low to High</option>
+                            <option value="price_high">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Minimum Rating</label>
+                    <div class="custom-select">
+                        <select id="filter-rating">
+                            <option value="0">Any Rating</option>
+                            <option value="4.5">4.5+ Stars</option>
+                            <option value="4.0">4.0+ Stars</option>
+                            <option value="3.5">3.5+ Stars</option>
+                            <option value="3.0">3.0+ Stars</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Max Distance</label>
+                    <div class="custom-select">
+                        <select id="filter-distance">
+                            <option value="10">Within 10 miles</option>
+                            <option value="25">Within 25 miles</option>
+                            <option value="50" selected>Within 50 miles</option>
+                            <option value="100">Within 100 miles</option>
+                            <option value="250">Within 250 miles</option>
+                            <option value="all">Any Distance</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Availability</label>
+                    <div class="custom-select">
+                        <select id="filter-availability">
+                            <option value="all">Any Availability</option>
+                            <option value="week">Within 1 week</option>
+                            <option value="month">Within 1 month</option>
+                            <option value="urgent">Urgent (24-48 hrs)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-tags" id="activeFilters"></div>
+        </div>
+    </div>
+
+    <section class="results-section">
+        <div class="container" id="resultsContainer">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Enter search criteria to find professionals</p>
+                <p style="font-size: 0.9rem; margin-top: 10px; color: var(--text-secondary);">
+                    Search for services like "plumbing", "electrical", or "HVAC" with a zip code
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div id="notification" class="notification"></div>
+
+<script>
+// ============================================
+// UPDATED JAVASCRIPT - CONNECTS TO REAL DATABASE
+// ============================================
+
+// Distance grouping function
+function groupProfessionalsByDistance(professionals) {
+    const groups = {
+        near: [],      // 0-10 miles
+        medium: [],    // 11-25 miles
+        far: [],       // 26-50 miles
+        distant: []    // 51+ miles
+    };
+    
+    professionals.forEach(pro => {
+        const distance = pro.distance || 999;
+        if (distance <= 10) {
+            groups.near.push(pro);
+        } else if (distance <= 25) {
+            groups.medium.push(pro);
+        } else if (distance <= 50) {
+            groups.far.push(pro);
+        } else {
+            groups.distant.push(pro);
+        }
+    });
+    
+    return groups;
+}
+
+// Create distance group header
+function createDistanceHeader(title, subtitle, count) {
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'distance-group';
+    
+    const headerDiv = document.createElement('div');
+    headerDiv.className = 'distance-header';
+    
+    const badge = document.createElement('span');
+    badge.className = 'distance-badge';
+    badge.textContent = `${count} professional${count !== 1 ? 's' : ''}`;
+    
+    const titleEl = document.createElement('h2');
+    titleEl.className = 'distance-title';
+    titleEl.textContent = title;
+    
+    const subtitleEl = document.createElement('p');
+    subtitleEl.className = 'distance-subtitle';
+    subtitleEl.textContent = subtitle;
+    
+    headerDiv.appendChild(badge);
+    headerDiv.appendChild(titleEl);
+    groupDiv.appendChild(headerDiv);
+    groupDiv.appendChild(subtitleEl);
+    
+    return groupDiv;
+}
+
+// Create professional card - UPDATED for real database fields
+function createProfessionalCard(professional) {
+    const card = document.createElement('div');
+    card.className = 'professional-card';
+    card.dataset.id = professional.id;
+    card.dataset.distance = professional.distance || 0;
+    card.dataset.rating = professional.rating || 4.5;
+    
+    // Header
+    const header = document.createElement('div');
+    header.className = 'card-header';
+    
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'professional-info';
+    
+    // Create avatar with initials
+    const avatar = document.createElement('div');
+    avatar.className = 'professional-avatar';
+    const fullName = professional.full_name || professional.username || 'Professional';
+    const initials = fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    avatar.textContent = initials;
+    
+    const nameDiv = document.createElement('div');
+    const name = document.createElement('div');
+    name.className = 'professional-name';
+    name.textContent = fullName;
+    
+    const title = document.createElement('div');
+    title.className = 'professional-title';
+    title.textContent = professional.title || 'Service Provider';
+    
+    nameDiv.appendChild(name);
+    nameDiv.appendChild(title);
+    infoDiv.appendChild(avatar);
+    infoDiv.appendChild(nameDiv);
+    header.appendChild(infoDiv);
+    
+    // Body
+    const body = document.createElement('div');
+    body.className = 'card-body';
+    
+    // Distance indicator
+    const distanceDiv = document.createElement('div');
+    distanceDiv.className = 'distance-indicator';
+    const distance = Math.round(professional.distance || 0);
+    distanceDiv.innerHTML = `<i class="fas fa-map-marker-alt"></i> <span>${distance} miles away (${professional.city || 'Location'}, ${professional.state || ''})</span>`;
+    
+    // Skills
+    const skillsDiv = document.createElement('div');
+    skillsDiv.className = 'skills-list';
+    const specialties = professional.specialties || 'General Services';
+    const skills = specialties.split(',').map(s => s.trim()).slice(0, 5);
+    skills.forEach(skill => {
+        const skillTag = document.createElement('span');
+        skillTag.className = 'skill-tag';
+        skillTag.textContent = skill;
+        skillsDiv.appendChild(skillTag);
+    });
+    
+    // Rating (default to 4.5 if no rating exists yet)
+    const ratingDiv = document.createElement('div');
+    ratingDiv.className = 'rating';
+    const rating = professional.rating || 4.5;
+    const reviews = professional.review_count || 0;
+    ratingDiv.innerHTML = `
+        <div class="stars">
+            ${'★'.repeat(Math.floor(rating))}${rating % 1 >= 0.5 ? '½' : ''}${'☆'.repeat(5 - Math.ceil(rating))}
+        </div>
+        <span class="rating-text">${rating.toFixed(1)}</span>
+        <span class="review-count">(${reviews} ${reviews === 1 ? 'review' : 'reviews'})</span>
+    `;
+    
+    // Experience and Price
+    const detailsDiv = document.createElement('div');
+    detailsDiv.style.marginBottom = '20px';
+    detailsDiv.style.fontSize = '0.9rem';
+    
+    const experienceText = professional.experience_years 
+        ? `${professional.experience_years} years experience`
+        : (professional.years_experience ? `${professional.years_experience} years experience` : 'Experience not specified');
+    
+    const priceText = professional.hourly_rate 
+        ? `$${parseFloat(professional.hourly_rate).toFixed(2)}/hr`
+        : 'Contact for rate';
+    
+    detailsDiv.innerHTML = `
+        <div style="margin-bottom: 4px;"><strong>Experience:</strong> ${experienceText}</div>
+        <div><strong>Rate:</strong> ${priceText}</div>
+    `;
+    
+    // Button
+    const button = document.createElement('button');
+    button.className = 'btn';
+    button.innerHTML = '<i class="fas fa-calendar-alt"></i> Book Consultation';
+    
+    body.appendChild(distanceDiv);
+    body.appendChild(skillsDiv);
+    body.appendChild(ratingDiv);
+    body.appendChild(detailsDiv);
+    body.appendChild(button);
+    
+    card.appendChild(header);
+    card.appendChild(body);
+    
+    return card;
+}
+
+// Main function to fetch professionals from your API
+async function searchProfessionals(service = '', zipcode = '', maxDistance = '50') {
+    console.log('Searching for:', service, 'near', zipcode, 'max distance:', maxDistance);
+    
+    // Get values from URL parameters if not provided
+    if (!service || !zipcode) {
+        const urlParams = new URLSearchParams(window.location.search);
+        service = service || urlParams.get('service') || '';
+        zipcode = zipcode || urlParams.get('zipcode') || '';
+    }
+    
+    // If still no zipcode, show instruction message
+    if (!zipcode) {
+        const container = document.getElementById('resultsContainer');
+        container.innerHTML = `
+            <div class="loading">
+                <div class="no-results-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>Ready to Search</h3>
+                <p>Enter a service and zip code to find professionals near you.</p>
+                <p style="font-size: 0.9rem; margin-top: 10px; color: var(--text-secondary);">
+                    Example: Search for "plumbing" near "90210"
+                </p>
+            </div>
+        `;
+        document.getElementById('queryText').textContent = 'Enter search criteria';
+        document.getElementById('resultCount').textContent = '0 professionals found';
+        return;
+    }
+    
+    // Show loading
+    const container = document.getElementById('resultsContainer');
+    container.innerHTML = `
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            Searching for ${service || 'professionals'} near ${zipcode}...
+        </div>
+    `;
+    
+    // Update UI
+    document.getElementById('queryText').textContent = `"${service || 'Any service'}" near "${zipcode}"`;
+    document.getElementById('resultCount').textContent = `Searching...`;
+    
+    try {
+        // Call your PHP API - UPDATE THIS URL IF NEEDED
+        const apiUrl = `/backend/search/search-professionals.php?query=${encodeURIComponent(service)}&zipcode=${encodeURIComponent(zipcode)}&maxDistance=${maxDistance}`;
+        console.log('API URL:', apiUrl);
+        
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('API Response:', data);
+        
+        if (data.success) {
+            displayProfessionalsFromAPI(data);
+        } else {
+            throw new Error(data.error || 'Search failed');
+        }
+    } catch (error) {
+        console.error('Search failed:', error);
+        
+        // Show error message but allow retry
+        container.innerHTML = `
+            <div class="no-results">
+                <div class="no-results-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Search Error</h3>
+                <p>Unable to connect to search service.</p>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">
+                    Error: ${error.message}
+                </p>
+                <button class="btn" onclick="retrySearch()" style="margin-top: 20px; width: auto; padding: 10px 20px;">
+                    <i class="fas fa-redo"></i> Try Again
+                </button>
+            </div>
+        `;
+        
+        document.getElementById('resultCount').textContent = `Search error`;
+    }
+}
+
+// Display professionals from API response
+function displayProfessionalsFromAPI(apiData) {
+    const container = document.getElementById('resultsContainer');
+    const sortBy = document.getElementById('sort-by').value;
+    
+    // Clear container
+    container.innerHTML = '';
+    
+    // Flatten all professionals from distance groups
+    let allProfessionals = [];
+    ['near', 'medium', 'far', 'distant'].forEach(group => {
+        if (apiData.results && apiData.results[group]) {
+            allProfessionals = allProfessionals.concat(apiData.results[group]);
+        }
+    });
+    
+    if (allProfessionals.length === 0) {
+        container.innerHTML = `
+            <div class="no-results">
+                <div class="no-results-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No professionals found</h3>
+                <p>Try adjusting your search criteria or expanding your distance range.</p>
+                <button class="btn" onclick="retrySearch()" style="margin-top: 20px; width: auto; padding: 10px 20px;">
+                    <i class="fas fa-redo"></i> Try Different Search
+                </button>
+            </div>
+        `;
+        document.getElementById('resultCount').textContent = `0 professionals found`;
+        return;
+    }
+    
+    // Sort professionals
+    allProfessionals.sort((a, b) => {
+        const aDist = a.distance || 999;
+        const bDist = b.distance || 999;
+        const aRating = a.rating || 0;
+        const bRating = b.rating || 0;
+        const aExp = a.experience_years || a.years_experience || 0;
+        const bExp = b.experience_years || b.years_experience || 0;
+        const aPrice = a.hourly_rate || 0;
+        const bPrice = b.hourly_rate || 0;
+        
+        switch(sortBy) {
+            case 'distance':
+                return aDist - bDist;
+            case 'rating':
+                return bRating - aRating;
+            case 'experience':
+                return bExp - aExp;
+            case 'price_low':
+                return aPrice - bPrice;
+            case 'price_high':
+                return bPrice - aPrice;
+            default:
+                return aDist - bDist;
+        }
+    });
+    
+    // Group by distance
+    const groups = groupProfessionalsByDistance(allProfessionals);
+    
+    // Update result count
+    const count = apiData.count || allProfessionals.length;
+    document.getElementById('resultCount').textContent = 
+        `${count} professional${count !== 1 ? 's' : ''} found`;
+    
+    // Display groups
+    if (groups.near.length > 0) {
+        container.appendChild(createDistanceHeader(
+            "Near You (0-10 miles)",
+            "Professionals closest to your location",
+            groups.near.length
+        ));
+        
+        const gridNear = document.createElement('div');
+        gridNear.className = 'results-grid';
+        groups.near.forEach(pro => {
+            gridNear.appendChild(createProfessionalCard(pro));
+        });
+        container.appendChild(gridNear);
+    }
+    
+    if (groups.medium.length > 0) {
+        container.appendChild(createDistanceHeader(
+            "Nearby Area (11-25 miles)",
+            "Professionals within a short drive",
+            groups.medium.length
+        ));
+        
+        const gridMedium = document.createElement('div');
+        gridMedium.className = 'results-grid';
+        groups.medium.forEach(pro => {
+            gridMedium.appendChild(createProfessionalCard(pro));
+        });
+        container.appendChild(gridMedium);
+    }
+    
+    if (groups.far.length > 0) {
+        container.appendChild(createDistanceHeader(
+            "Regional (26-50 miles)",
+            "Professionals within your region",
+            groups.far.length
+        ));
+        
+        const gridFar = document.createElement('div');
+        gridFar.className = 'results-grid';
+        groups.far.forEach(pro => {
+            gridFar.appendChild(createProfessionalCard(pro));
+        });
+        container.appendChild(gridFar);
+    }
+    
+    if (groups.distant.length > 0) {
+        container.appendChild(createDistanceHeader(
+            "Wider Area (51+ miles)",
+            "Professionals available for larger projects",
+            groups.distant.length
+        ));
+        
+        const gridDistant = document.createElement('div');
+        gridDistant.className = 'results-grid';
+        groups.distant.forEach(pro => {
+            gridDistant.appendChild(createProfessionalCard(pro));
+        });
+        container.appendChild(gridDistant);
+    }
+}
+
+// Retry search function
+function retrySearch() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const service = urlParams.get('service') || '';
+    const zipcode = urlParams.get('zipcode') || '';
+    const maxDistance = document.getElementById('filter-distance').value;
+    
+    searchProfessionals(service, zipcode, maxDistance);
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Page loaded, checking for search parameters...');
+    
+    // Check for URL parameters from search form
+    const urlParams = new URLSearchParams(window.location.search);
+    const service = urlParams.get('service');
+    const zipcode = urlParams.get('zipcode');
+    const maxDistance = urlParams.get('maxDistance') || '50';
+    
+    // Update filter if provided in URL
+    if (urlParams.get('maxDistance')) {
+        document.getElementById('filter-distance').value = urlParams.get('maxDistance');
+    }
+    
+    // If we have search parameters, perform search
+    if (service || zipcode) {
+        console.log('Found URL parameters:', { service, zipcode, maxDistance });
+        
+        // Update the display
+        document.getElementById('queryText').textContent = 
+            `"${service || 'Any service'}" near "${zipcode || 'your location'}"`;
+        
+        // Perform search after a short delay
+        setTimeout(() => {
+            searchProfessionals(service, zipcode, maxDistance);
+        }, 500);
+    } else {
+        console.log('No search parameters found, showing default state');
+        // Show default state
+        document.getElementById('resultsContainer').innerHTML = `
+            <div class="loading">
+                <div class="no-results-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>Find Professionals Near You</h3>
+                <p>Use the search form to find verified professionals in your area.</p>
+                <p style="font-size: 0.9rem; margin-top: 10px; color: var(--text-secondary);">
+                    Search for services like plumbing, electrical, HVAC, or technology
+                </p>
+            </div>
+        `;
+    }
+    
+    // Add event listeners to filters
+    document.getElementById('sort-by').addEventListener('change', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const service = urlParams.get('service');
+        const zipcode = urlParams.get('zipcode');
+        if (service || zipcode) {
+            searchProfessionals(service, zipcode, document.getElementById('filter-distance').value);
+        }
+    });
+    
+    document.getElementById('filter-rating').addEventListener('change', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const service = urlParams.get('service');
+        const zipcode = urlParams.get('zipcode');
+        if (service || zipcode) {
+            searchProfessionals(service, zipcode, document.getElementById('filter-distance').value);
+        }
+    });
+    
+    document.getElementById('filter-distance').addEventListener('change', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const service = urlParams.get('service');
+        const zipcode = urlParams.get('zipcode');
+        if (service || zipcode) {
+            searchProfessionals(service, zipcode, this.value);
+        }
+    });
+    
+    document.getElementById('filter-availability').addEventListener('change', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const service = urlParams.get('service');
+        const zipcode = urlParams.get('zipcode');
+        if (service || zipcode) {
+            searchProfessionals(service, zipcode, document.getElementById('filter-distance').value);
+        }
+    });
+    
+    // Update filter tags
+    function updateFilterTags() {
+        const tagsContainer = document.getElementById('activeFilters');
+        tagsContainer.innerHTML = '';
+        
+        const distance = document.getElementById('filter-distance').value;
+        const rating = document.getElementById('filter-rating').value;
+        const availability = document.getElementById('filter-availability').value;
+        
+        if (distance !== '50') {
+            const tag = document.createElement('div');
+            tag.className = 'filter-tag';
+            tag.innerHTML = `<span>Distance: ${distance === 'all' ? 'Any' : `Within ${distance} miles`}</span> <i class="fas fa-times"></i>`;
+            tag.querySelector('i').addEventListener('click', () => {
+                document.getElementById('filter-distance').value = '50';
+                const urlParams = new URLSearchParams(window.location.search);
+                const service = urlParams.get('service');
+                const zipcode = urlParams.get('zipcode');
+                if (service || zipcode) {
+                    searchProfessionals(service, zipcode, '50');
+                }
+            });
+            tagsContainer.appendChild(tag);
+        }
+        
+        if (rating !== '0') {
+            const tag = document.createElement('div');
+            tag.className = 'filter-tag';
+            tag.innerHTML = `<span>Rating: ${rating}+ stars</span> <i class="fas fa-times"></i>`;
+            tag.querySelector('i').addEventListener('click', () => {
+                document.getElementById('filter-rating').value = '0';
+                const urlParams = new URLSearchParams(window.location.search);
+                const service = urlParams.get('service');
+                const zipcode = urlParams.get('zipcode');
+                if (service || zipcode) {
+                    searchProfessionals(service, zipcode, document.getElementById('filter-distance').value);
+                }
+            });
+            tagsContainer.appendChild(tag);
+        }
+        
+        if (availability !== 'all') {
+            const tag = document.createElement('div');
+            tag.className = 'filter-tag';
+            tag.innerHTML = `<span>Available: ${availability === 'week' ? 'Within 1 week' : availability === 'month' ? 'Within 1 month' : 'Urgent'}</span> <i class="fas fa-times"></i>`;
+            tag.querySelector('i').addEventListener('click', () => {
+                document.getElementById('filter-availability').value = 'all';
+                const urlParams = new URLSearchParams(window.location.search);
+                const service = urlParams.get('service');
+                const zipcode = urlParams.get('zipcode');
+                if (service || zipcode) {
+                    searchProfessionals(service, zipcode, document.getElementById('filter-distance').value);
+                }
+            });
+            tagsContainer.appendChild(tag);
+        }
+    }
+    
+    // Call updateFilterTags whenever filters change
+    document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('change', updateFilterTags);
+    });
+    
+    // Initial update
+    updateFilterTags();
+});
+
+// Notification function
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.style.display = 'block';
+    
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000);
+}
+</script>
+</body>
+</html>
