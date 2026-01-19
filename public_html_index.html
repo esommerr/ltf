@@ -5,8 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Learn the Fix</title>
+    
+    <!-- ADD THESE INSIDE <head> AFTER <title>: -->
+<meta name="description" content="Learn the Fix connects you with trusted professionals who complete tasks while teaching you skills. Hire experts for home repair, technology, hobbies and learn hands-on.">
+<meta name="keywords" content="home repair, learn skills, hire professionals, handyman, technology help, hobby lessons">
+<meta name="author" content="Learn the Fix">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Open Graph for social sharing -->
+<meta property="og:title" content="Learn the Fix - Hire a Pro. Learn How It's Done.">
+<meta property="og:description" content="Connect with trusted professionals who complete tasks while teaching you skills along the way.">
+<meta property="og:image" content="https://assets.zyrosite.com/m5KbQR9jMzu28lGZ/ltf-fliarzvEWo8OqyiI.jpg">
+<meta property="og:url" content="https://learnthefix.com/">
+<meta property="og:type" content="website">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Learn the Fix">
+<meta name="twitter:description" content="Hire professionals and learn skills hands-on.">
+
+<!-- ▼▼▼ ADD PRECONNECT HERE ▼▼▼ -->
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Favicon using your main logo -->
+    <link rel="icon" type="image/jpeg" href="https://assets.zyrosite.com/m5KbQR9jMzu28lGZ/ltf-fliarzvEWo8OqyiI.jpg" sizes="32x32">
+    <link rel="apple-touch-icon" href="https://assets.zyrosite.com/m5KbQR9jMzu28lGZ/ltf-fliarzvEWo8OqyiI.jpg">
+    
+    <!-- Fonts with better loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional" rel="stylesheet">
 
     <style>
         /* =====================
@@ -385,12 +411,37 @@
             .btn { font-size:0.8rem; padding:13px 22px; }
             .header-container, .footer-container { padding:0 16px; }
         }
+        
+                /* =====================
+           SKIP LINK (Accessibility)
+        ===================== */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--red-primary);
+            color: white;
+            padding: 12px;
+            text-decoration: none;
+            z-index: 1000;
+            border-radius: 0 0 4px 0;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .skip-link:focus {
+            top: 0;
+            outline: 2px solid white;
+            outline-offset: 2px;
+        }
 
     </style>
 </head>
 
 <body>
 
+<!-- Skip link for keyboard/screen reader users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <!-- HEADER -->
     <header>
         <div class="header-container">
@@ -409,9 +460,12 @@
 </nav>
 
 
-        </div>
+                </div>
     </header>
 
+    <!-- Main content wrapper for accessibility -->
+    <main id="main-content">
+    
     <!-- HERO -->
     <section class="hero sky-blue-divider">
         <div class="container hero-grid">
@@ -436,7 +490,7 @@
             <div class="trust-grid">
                 <div class="trust-item">
                     <div class="trust-icon">
-                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+    <svg aria-hidden="true" focusable="false" fill="none" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M12 3l7 4v5c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V7l7-4z"/>
                         </svg>
                     </div>
@@ -445,7 +499,7 @@
                 </div>
                 <div class="trust-item">
                     <div class="trust-icon">
-                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+    <svg aria-hidden="true" focusable="false" fill="none" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/>
                         </svg>
                     </div>
@@ -454,7 +508,7 @@
                 </div>
                 <div class="trust-item">
                     <div class="trust-icon">
-                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+    <svg aria-hidden="true" focusable="false" fill="none" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 10l9-7 9 7v8a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V12H9v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                         </svg>
                     </div>
@@ -463,7 +517,7 @@
                 </div>
                 <div class="trust-item">
                     <div class="trust-icon">
-                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+    <svg aria-hidden="true" focusable="false" fill="none" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-3.5 0-6 2.5-6 5s2.5 5 6 5 6-2.5 6-5-2.5-5-6-5z"/>
                         </svg>
                     </div>
@@ -515,36 +569,45 @@
             </div>
         </div>
     </section>
+    
+    </main>  <!-- Close main content wrapper -->
 
     <!-- FOOTER -->
-    <footer>
-        <div class="footer-container">
-            <div class="copyright">
-                © 2026 Learn the Fix. All rights reserved.
-            </div>
-            <nav class="footer-links">
-                <a href="/legal/" class="footer-link">Legal</a>
-                <a href="/contact/" class="footer-link">Contact</a>
-
-            </nav>
+<footer>
+    <div class="footer-container">
+        <div class="copyright">
+            © <span id="current-year">2026</span> Learn the Fix. All rights reserved.
         </div>
-    </footer>
+        <nav class="footer-links">
+            <a href="/legal/" class="footer-link">Legal</a>
+            <a href="/contact/" class="footer-link">Contact</a>
+        </nav>
+    </div>
+</footer>
 
-    <script>
-        // Mobile menu toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        });
+<script defer>
+    // Update copyright year automatically
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    });
 
-        // Close menu when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            const navLinks = document.getElementById('navLinks');
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            if (window.innerWidth <= 900 && !navLinks.contains(event.target) && !mobileMenuBtn.contains(event.target) && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-            }
-        });
-    </script>
+    // Close menu when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+        const navLinks = document.getElementById('navLinks');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        
+        if (window.innerWidth <= 900 && 
+            navLinks && 
+            navLinks.classList.contains('active') && 
+            !navLinks.contains(event.target) && 
+            !mobileMenuBtn.contains(event.target)) {
+            navLinks.classList.remove('active');
+        }
+    });
+</script>
 </body>
 </html>
